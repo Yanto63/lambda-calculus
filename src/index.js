@@ -4,6 +4,9 @@ const LINE_WIDTH = DIAG_SCALE * 0.3
 const LAMBDA_OFFSET = DIAG_SCALE * 0.2
 
 function render() {
+    const expression = document.getElementById("expression").value
+    parse(expression)
+    
     const canvas = document.getElementById("diagram")
     const ctx = canvas.getContext("2d")
     ctx.fillStyle = LINE_COLOR
