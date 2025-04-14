@@ -5,12 +5,19 @@
     <meta charset="utf-8">
     <script src="utils.js"></script>
     <script src="lambda_tree.js"></script>
+    <script src="lambda_parser.js"></script>
     <script src="index.js" type="text/javascript" defer></script>
     <link rel="stylesheet" href="style.css">
 
 </head>
 
-<body onload="render();">
+<body>
+    <form>
+        <label for="expression">Your expression here:</label><br>
+        <input type="text" id="expression" name="expression">
+        <button type="submit" onclick="render()">Render</button>
+    </form>
+
     <canvas id="diagram" width="750" height="300">
         Too bad U can't render it... Cry about it...
     </canvas>
