@@ -2,6 +2,10 @@ body {
     background-color: #1b1b1b;
 }
 
+label {
+    color: #808080A0;
+}
+
 canvas {
     border: 3px solid #80808080;
 }
