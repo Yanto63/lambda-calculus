@@ -1,6 +1,6 @@
 class LambdaTree {
-    constructor() {
-        this.root = null
+    constructor(root) {
+        this.root = root
     }
 
     create2() {
@@ -68,7 +68,11 @@ class Variable extends Node {
         this.value = value
     }
 
-    depth() {
+    depth(){
+        return this.__depth([])
+    }
+    __depth(known_lambdas) {
+        if (!(this.value in known_lambdas)) return 1
         return 0
     }
 
@@ -122,16 +126,20 @@ class Lambda extends Node {
         super()
         this.variable = variable
         this.content = content
+        this.content.parent = this
     }
 
-    depth() {
-        return this.content.depth() + 1
+    depth(){
+        return this.__depth([])
+    }
+    __depth(known_lambdas) {
+        known_lambdas.push(this.variable)
+        return this.content.__depth(known_lambdas) + 1
     }
 
     first_step_parent_from_which_this_is_second_child() {
         let parent = this.parent
         let child = this
-        let delta = -1
         while (class_of(parent) === "Lambda" || (class_of(parent) === "Step" && parent.content[1] != child)) {
             child = parent
             parent = parent.parent
@@ -164,11 +172,16 @@ class Step extends Node {
     constructor(content) {
         super()
         this.content = content
+        this.content[0].parent = this
+        this.content[1].parent = this
     }
 
-    depth() {
-        const ldepth = this.content[0].depth()
-        const rdepth = this.content[1].depth()
+    depth(){
+        return this.__depth([])
+    }
+    __depth(known_lambdas) {
+        const ldepth = this.content[0].__depth(known_lambdas)
+        const rdepth = this.content[1].__depth(known_lambdas)
         return (ldepth > rdepth ? ldepth : rdepth) + 1
     }
 
